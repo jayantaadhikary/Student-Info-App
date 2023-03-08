@@ -8,9 +8,28 @@ import {
 } from "react-native";
 import { useState } from "react";
 
-function Login() {
+function Login({ navigation }) {
   const [reg, setReg] = useState("");
   const [password, setPassword] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const credentials = {
+    userName: "1234",
+    password: "password",
+  };
+
+  function onSignIn() {
+    if (reg == credentials.userName && password == credentials.password) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+    if (loggedIn) {
+      navigation.navigate("DrawerNavigator", {
+        screen: "Profile",
+      });
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -33,7 +52,11 @@ function Login() {
           onChangeText={(password) => setPassword(password)}
         />
       </View>
-      <Pressable style={styles.loginBtn} android_ripple={{ color: "#ccc" }}>
+      <Pressable
+        style={styles.loginBtn}
+        android_ripple={{ color: "#ccc" }}
+        onPress={onSignIn}
+      >
         <Text style={styles.text}>Sign In</Text>
       </Pressable>
     </View>
